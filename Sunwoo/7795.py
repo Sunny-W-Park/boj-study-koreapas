@@ -16,4 +16,3 @@ for _ in range(T):
         idx = bisect.bisect_right(num_A, i)
         count += len(num_A) - idx 
     print(count)
-
