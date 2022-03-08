@@ -57,7 +57,7 @@ else:
 #10026
 
 import sys
-sys.setrecursionlimit(1000000)
+sys.setrecursionlimit(100000)
 from collections import deque
 
 N = int(input())
@@ -164,6 +164,52 @@ else:
 
 
 n = int(input())
+
+#17265 재풀이
+
+import sys
+input = sys.stdin.readline
+N = int(input())
+graph = []
+for _ in range(N):
+    graph.append(list(map(str, input().split())))
+
+dx = [1, 0]
+dy = [0, 1]
+
+mv = -(5**25)
+nv = 5**25
+ops = ["+", "-", "*"]
+
+def dfs(x, y, before, operator):
+    global mv
+    global nv
+    for k in range(2):
+        nx = x + dx[k]
+        ny = y + dy[k]
+        if 0 <= nx <= N-1 and 0 <= ny <= N-1:
+            if graph[nx][ny] in ops:
+                dfs(nx, ny, before, graph[nx][ny])
+            else:
+                if operator == '+':
+                    dfs(nx, ny, int(before) + int(graph[nx][ny]), '')
+                if operator == '-':
+                    dfs(nx, ny, int(before) - int(graph[nx][ny]), '')
+                if operator == '*':
+                    dfs(nx, ny, int(before) * int(graph[nx][ny]), '')
+        if nx == N-1 and ny == N-1:
+            fv = 0
+            if operator == '+':
+                fv = int(before) + int(graph[nx][ny])
+            if operator == '-':
+                fv = int(before) - int(graph[nx][ny])
+            if operator == '*':
+                fv = int(before) * int(graph[nx][ny])
+            mv = max(mv, fv)
+            nv = min(nv, fv)
+
+dfs(0, 0, int(graph[0][0]), '')
+print(mv, nv)
 
 
 #17265
